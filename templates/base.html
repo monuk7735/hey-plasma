@@ -4,14 +4,24 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
+
+    <link href="/static/css/base.css" rel="stylesheet" type="text/css"/>
     {% block imports %}
     {% endblock %}
 
     <title>{% block title %}{% endblock %}</title>
   </head>
   <body>
+      <div id="top-bar">
+          <img id="top-bar-logo" src="https://cdn.logo.com/hotlink-ok/logo-social-sq.png" />
+          <div id="top-bar-text">Hey Plasma!</div>
+          <div id="top-bar-profile">Login/SignUP</div>
+      </div>
       {% block body %}
       {% endblock %}
+      <div id="foot-bar">
+        Stay Home, Stay Safe!
+      </div>
+    </div>
   </body>
 </html>
