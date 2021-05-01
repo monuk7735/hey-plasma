@@ -1,23 +1,26 @@
-from flask import Flask, render_template
+from flask import Flask, request, render_template, redirect
 
 app = Flask(__name__)
+
 
 @app.route("/")
 def home():
     users = []
     user = {
-        "name" : "Rohan Verma",
-        "address" : "South Delhi, New Delhi",
-        "pin" : "400001",
-        "blood" : "A+"
+        "name": "Rohan Verma",
+        "address": "South Delhi, New Delhi",
+        "pin": "400001",
+        "blood": "A+"
     }
     users = [user]*10
-    print(users)
     return render_template('home.html', users=users)
 
 
-@app.route("/register")
+@app.route("/register", methods=['POST', 'GET'])
 def register():
+    if request.method == "POST":
+        return "doing registration"
+
     return "register"
 
 
