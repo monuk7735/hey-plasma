@@ -22,6 +22,14 @@ body {
   background-color: rgb(68, 68, 68);
 }
 
+#top-bar a{
+    text-decoration: none;
+}
+
+#top-bar a:visited{
+    color: white;
+}
+
 #top-bar-logo {
   width: 50px;
   flex: 50px 0 0;
@@ -44,7 +52,6 @@ body {
     bottom: 0;
     left: 0;
     right: 0;
-    
     text-align: center;
     color: white;
     font-size: 200%;
