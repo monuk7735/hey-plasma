@@ -26,7 +26,11 @@ body {
   font-family: "Product Sans";
   margin: 0;
   padding: 0;
-  --top-bar-color: #34495e;
+  --body-background-color: #ecf0f1;
+  --top-bar-color: #624CAB;
+  --card-background-color: #C1CEFE;
+  --card-contact-color: var(--top-bar-color);
+  background-color: var(--body-background-color);
 }
 
 #top-bar {
