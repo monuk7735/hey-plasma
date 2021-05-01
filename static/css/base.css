@@ -11,15 +11,16 @@ body {
   font-family: "Product Sans";
   margin: 0;
   padding: 0;
+  --top-bar-color: #34495e
 }
 
 #top-bar {
   display: flex;
   color: white;
   overflow: hidden;
-  padding: 20px 50px;
+  padding: 20px;
   align-items: center;
-  background-color: rgb(68, 68, 68);
+  background-color: var(--top-bar-color);
 }
 
 #top-bar a{
@@ -32,28 +33,28 @@ body {
 
 #top-bar-logo {
   width: 50px;
-  flex: 50px 0 0;
+  flex: 10% 1 0;
 }
 
 #top-bar-text {
-  flex: 50px 1 1;
-  font-size: 35px;
+  flex: 40px 1 1;
+  font-size: 150%;
   text-align: center;
   font-weight: bolder;
 }
 
 #top-bar-profile {
-  flex: 50px 0 0;
+  flex: 40px 0 0;
 }
 
 #foot-bar{
-    padding: 20px 50px;
+    padding: 20px ;
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
     text-align: center;
     color: white;
-    font-size: 200%;
-    background-color: rgb(68, 68, 68);
+    font-size: 150%;
+    background-color: var(--top-bar-color);
 }

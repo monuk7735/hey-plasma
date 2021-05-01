@@ -7,14 +7,21 @@
 {% endblock %}
 
 {% block body %}
-Body
+
+<div class="card-holder">
+    {% for user in users %}
+            <div class="card">
+                <h1 class="user-name">{{user['name']}} - {{user['blood']}}</h1>
+                <p class="user-address">{{user['address']}}</p>
+                <p class="user-address-pin">{{user['pin']}}</p>
+                <a href="#" class="user-contact-button">Contact</a>
+            </div>
+    {% endfor %}
+</div>
+
 {% endblock %}
 
 <!-- 
-Top Bar
-    - Logo
-    - Login/Register
-
 Filter
     - By BG
     - Pin
@@ -22,7 +29,10 @@ Filter
 
 For user in users:
     Cards
+        - Name
+        - BG
+        - Address
+        - Pin
         - onClick -> More Info
                         - Make Request
-
 Footer -->

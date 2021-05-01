@@ -2,10 +2,18 @@ from flask import Flask, render_template
 
 app = Flask(__name__)
 
-
 @app.route("/")
 def home():
-    return render_template('home.html')
+    users = []
+    user = {
+        "name" : "Rohan Verma",
+        "address" : "South Delhi, New Delhi",
+        "pin" : "400001",
+        "blood" : "A+"
+    }
+    users = [user]*10
+    print(users)
+    return render_template('home.html', users=users)
 
 
 @app.route("/register")
