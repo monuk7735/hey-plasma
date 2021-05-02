@@ -3,13 +3,13 @@ import json
 
 from flask import Flask, request, render_template, redirect, send_from_directory
 from supabase_py import Client, create_client
-# from pytezos import pytezos
+from pytezos import pytezos
 
 app = Flask(__name__)
 
-# pyt = pytezos.using(key=os.environ["TEZOS_KEY"],
-#                     shell="https://edonet.smartpy.io")
-# contr = pyt.contract(os.environ["CONTRACT_ADDRESS"])
+pyt = pytezos.using(key=os.environ["TEZOS_KEY"],
+                    shell="https://edonet.smartpy.io")
+contr = pyt.contract(os.environ["CONTRACT_ADDRESS"])
 
 
 url: str = os.environ["SUPABASE_URL"]
