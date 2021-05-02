@@ -1,6 +1,50 @@
+{% extends '/base.html' %}
 
-For User in USer:
-    Cards
-        - Name
-        - email
-        - Phone
+{% block title %}Requests{% endblock %}
+
+{% block imports %}
+<link href="/static/css/connected_users.css" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
+{% block body %}
+<div class="card">
+    <h1 id="card-your-profile">Your Profile</h1>
+  <h1> {{ user["name"] }}</h1>
+  <p class="title">{{ user["address"] }}</p>
+  <p>{{ user["phone"] }}</p>
+  <p>{{ user["email"] }}</p>
+  <p>{{ user["bloodgroup"] }}</p>
+  <p>{{ user["pincode"] }}</p>
+    {% if user["canDonate"] %}
+     <p> Can Donate </p>
+     <button id="change-button" type="submit">Change status to Can't Donate</button>
+    {% else %}
+    <p> Can't Donate </p>
+    <button id="change-button" type="submit">Change status to Can Donate</button>
+    {% endif %}
+</div>
+
+<div class="requests-view">
+<h1 id="contact-requests"> Contact Requests</h1>
+<table id="requests-table" >
+  <tr>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Phone</th>
+  </tr>
+{% for item in user["requests"] %}
+ <tr>
+    <td>{{ item["name"] }}</td>
+    <td>{{ item["email"] }}</td>
+    <td>{{ item["phoneNumber"] }}</td>
+  </tr>
+{% endfor %}
+</table>
+</div>
+
+<div class="loader-container">
+<div class="loader"></div>
+
+
+
+{% endblock %}

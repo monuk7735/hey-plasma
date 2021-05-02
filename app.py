@@ -15,6 +15,9 @@ url: str = os.environ["SUPABASE_URL"]
 key: str = os.environ["SUPABASE_KEY"]
 supabase: Client = create_client(url, key)
 
+
+
+
 @app.route("/favicon.ico")
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'), 'assets/favicon.png', mimetype='image/vnd.microsoft.icon')
@@ -32,16 +35,20 @@ def home():
 def get_users():
     allData=contr.storage()
     users = []
+    exludeUid= ""
+    if supabase.auth.current_user:
+        exludeUid=supabase.auth.current_user['id']
     for item in allData:
         userdata=allData[item]
-        users.append({
-            "name": userdata["name"],
-            "address": userdata["address"],
-            "pin": userdata["pincode"],
-            "blood": userdata["bloodGroup"],
-            "canDonate":userdata["canDonate"],
-            "uid" : item
-        })
+        if item !=exludeUid:
+            users.append({
+                "name": userdata["name"],
+                "address": userdata["address"],
+                "pin": userdata["pincode"],
+                "blood": userdata["bloodGroup"],
+                "canDonate":userdata["canDonate"],
+                "uid" : item
+            })
     return json.dumps(users)
 
 
@@ -109,7 +116,13 @@ def logout():
 
 @app.route("/requests")
 def connected_users():
-    return "connected users"
+    if supabase.auth.current_user:
+        uid=supabase.auth.current_user['id']
+        data = contr.storage()[uid]
+        return render_template("connected_users.html",user=data,authenticated=True)
+    else:
+        return redirect('/login')
+    
 
 
 @app.route("/request", methods=['POST'])
@@ -120,9 +133,31 @@ def connected_to_user():
             "message": "Not Logged IN"
         }
     uid = request.form['uid']
+    curuid=supabase.auth.current_user['id']
+    data = contr.storage()[curuid]
+    contr.addRequest(
+            requestedTo=uid,
+            name=data["name"],
+            phoneNumber=data["phone"],
+            email=data["email"]
+        ).inject()
     return {
         "status": 1,
         "message": "Request Made to " + uid
+    }
+
+@app.route("/changestatus", methods=['POST'])
+def changeStatus():
+    if not supabase.auth.current_user:
+        return {
+            "status": 0,
+            "message": "Not Logged IN"
+        }
+    uid = request.form['uid']
+    contr.updateStatus(uid=curuid,canDonate=True).inject()
+    return {
+        "status": 1,
+        "message": "Can Donate status updated"
     }
 
 

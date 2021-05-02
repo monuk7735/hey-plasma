@@ -1,5 +1,5 @@
 var users = [];
-
+var loader= document.getElementsByClassName('loader-container')[0];
 function makeCard(user) {
   return (
     '<div class="card">\
@@ -24,6 +24,7 @@ function makeCard(user) {
 }
 
 function loadData() {
+
   var xmlHttp = new XMLHttpRequest();
   xmlHttp.open("GET", "/api/users", true); // false for synchronous request
   xmlHttp.onload = function (e) {
@@ -40,15 +41,20 @@ function loadData() {
     for (let i = 0; i < allElements.length; i++) {
       allElements[i].onclick = makeRequest;
     }
+
+
   };
   xmlHttp.send();
 }
 
 function makeRequest(e) {
+  console.log(loader.style.visibility)
+  loader.style.visibility = "visible";
   var xmlHttp = new XMLHttpRequest();
   xmlHttp.open("POST", "/request", true); // false for synchronous request
 
   xmlHttp.onload = function (e) {
+    loader.style.visibility="hidden"
     resp = JSON.parse(xmlHttp.responseText);
     if (!resp.status) {
       document.location = "/login";
