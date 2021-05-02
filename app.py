@@ -3,8 +3,13 @@ import json
 
 from flask import Flask, request, render_template, redirect, send_from_directory
 from supabase_py import Client, create_client
+from pytezos import pytezos
 
 app = Flask(__name__)
+
+pyt =pytezos.using(key=os.environ["TEZOS_KEY"],shell="https://edonet.smartpy.io")
+contr=pyt.contract(os.environ["CONTRACT_ADDRESS"])
+
 
 url: str = os.environ["SUPABASE_URL"]
 key: str = os.environ["SUPABASE_KEY"]
@@ -25,16 +30,18 @@ def home():
 
 @app.route("/api/users")
 def get_users():
+    allData=contr.storage()
     users = []
-    user = {
-        "name": "Rohan Verma",
-        "city": "South Delhi",
-        "state": " New Delhi",
-        "pin": "400001",
-        "blood": "O+",
-        "uid": "8743br384-36vb443-q36dsfs"
-    }
-    users = [user]*10
+    for item in allData:
+        userdata=allData[item]
+        users.append({
+            "name": userdata["name"],
+            "address": userdata["address"],
+            "pin": userdata["pincode"],
+            "blood": userdata["bloodGroup"],
+            "canDonate":userdata["canDonate"],
+            "uid" : item
+        })
     return json.dumps(users)
 
 
