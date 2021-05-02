@@ -1,4 +1,4 @@
-.card-holder {
+#card-holder {
   width: inherit;
   display: grid;
   margin: 15px;
@@ -49,6 +49,6 @@
 }
 
 .user-contact-button:hover {
-  transform: scale(1.2);
-  cursor: hand;
+  filter: brightness(75%);
+  /* background-color: var(--card-contact-color); */
 }
