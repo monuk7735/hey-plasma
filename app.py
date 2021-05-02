@@ -45,8 +45,10 @@ def get_users():
     return json.dumps(users)
 
 
-@app.route("/register", methods=['POST'])
+@app.route("/register", methods=['POST','GET'])
 def register():
+    if request.method == "GET":
+        return redirect('/login')
     name = request.form['name']
     blood_group = request.form['blood']
     address_city = request.form['address-city']
@@ -54,6 +56,7 @@ def register():
     address_pin = request.form['address-pin']
     email = request.form['email']
     password = request.form['password']
+    phone=request.form['phone']
 
     result = supabase.auth.sign_up(email=email, password=password)
 
@@ -68,9 +71,17 @@ def register():
     except:
         print("error")
 
-    # TODO Do registration
+    contr.createUser(uid=uid,
+        username=name,
+        phone=phone,
+        address= address_city+", "+address_state,
+        canDonate=True,
+        email=email,
+        bloodGroup=blood_group,
+        pincode=address_pin).inject()
 
-    return "doing registration"
+
+    return redirect("/")
 
 
 @app.route("/login", methods=['POST', 'GET'])

@@ -7,7 +7,7 @@ name = "pypi"
 flask = "*"
 supabase-py = "*"
 gunicorn = "*"
-pytezos = "*"
+pytezos = "==3.0.4"
 
 [dev-packages]
 autopep8 = "*"
