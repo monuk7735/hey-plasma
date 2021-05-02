@@ -105,8 +105,7 @@ def register():
         email=email,
         bloodGroup=blood_group,
         pincode=address_pin).inject()
-
-
+        
     return redirect("/")
 
 
