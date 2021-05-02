@@ -5,13 +5,6 @@ name = "pypi"
 
 [packages]
 flask = "*"
-firebase = "*"
-python-jwt = "*"
-gcloud = "*"
-sseclient = "*"
-crypto = "*"
-pycrypto = "*"
-requests-toolbelt = "*"
 supabase-py = "*"
 
 [dev-packages]

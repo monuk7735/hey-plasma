@@ -44,11 +44,8 @@
   font-weight: bold;
 }
 
-.user-contact-button:visited {
-    color: white;
-}
-
 .user-contact-button:hover {
   filter: brightness(75%);
+  cursor: pointer;
   /* background-color: var(--card-contact-color); */
 }

@@ -15,7 +15,11 @@
       <div id="top-bar">
           <a href="/" ><img id="top-bar-logo" src="/static/assets/logo.png"/></a>
           <a id="top-bar-text" href="/">Hey Plasma!</a>
+          {% if authenticated %}
+          <a id="top-bar-profile" href="/logout" >Logout</a>
+          {% else %}
           <a id="top-bar-profile" href="/login" >Login</a>
+          {% endif %}
       </div>
       {% block body %}
       {% endblock %}
