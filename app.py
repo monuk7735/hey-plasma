@@ -35,29 +35,26 @@ def home():
 
 @app.route("/api/users")
 def get_users():
-
-    try:
-        allData = contr.storage()
-    except:
-        allData = []
-
-    tempuser = {
-        "name" : "Rohan Verma",
-        "address" : "Kolkata, West Bengal",
-        "pin" : "177005",
-        "blood" : "A+",
-        "canDonate": True,
-        "uid" : "sdf87sd-dsf86s-sdfusdf"
-    }
-    tempuser2 = {
-        "name" : "Not Rohan Verma",
-        "address" : "Kolkata, West Bengal",
-        "pin" : "177005",
-        "blood" : "B+",
-        "canDonate": True,
-        "uid" : "sdf87sd-dsf86s-sdfusdf"
-    }
-    users = [tempuser] * 5 + [tempuser2] * 5
+    allData = contr.storage()
+    users = []
+    
+    # tempuser = {
+    #     "name" : "Rohan Verma",
+    #     "address" : "Kolkata, West Bengal",
+    #     "pin" : "177005",
+    #     "blood" : "A+",
+    #     "canDonate": True,
+    #     "uid" : "sdf87sd-dsf86s-sdfusdf"
+    # }
+    # tempuser2 = {
+    #     "name" : "Not Rohan Verma",
+    #     "address" : "Kolkata, West Bengal",
+    #     "pin" : "177005",
+    #     "blood" : "B+",
+    #     "canDonate": True,
+    #     "uid" : "sdf87sd-dsf86s-sdfusdf"
+    # }
+    # users = [tempuser] * 5 + [tempuser2] * 5
     for item in allData:
         userdata = allData[item]
         users.append({
@@ -105,7 +102,7 @@ def register():
         email=email,
         bloodGroup=blood_group,
         pincode=address_pin).inject()
-        
+
     return redirect("/")
 
 
