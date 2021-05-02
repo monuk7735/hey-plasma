@@ -3,21 +3,26 @@ import json
 
 from flask import Flask, request, render_template, redirect, send_from_directory
 from supabase_py import Client, create_client
-from pytezos import pytezos
+# from pytezos import pytezos
 
 app = Flask(__name__)
 
-pyt =pytezos.using(key=os.environ["TEZOS_KEY"],shell="https://edonet.smartpy.io")
-contr=pyt.contract(os.environ["CONTRACT_ADDRESS"])
+# pyt = pytezos.using(key=os.environ["TEZOS_KEY"],
+#                     shell="https://edonet.smartpy.io")
+# contr = pyt.contract(os.environ["CONTRACT_ADDRESS"])
 
 
 url: str = os.environ["SUPABASE_URL"]
 key: str = os.environ["SUPABASE_KEY"]
 supabase: Client = create_client(url, key)
 
+
+
+
 @app.route("/favicon.ico")
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'), 'assets/favicon.png', mimetype='image/vnd.microsoft.icon')
+
 
 @app.route("/")
 def home():
@@ -30,23 +35,46 @@ def home():
 
 @app.route("/api/users")
 def get_users():
-    allData=contr.storage()
-    users = []
+
+    try:
+        allData = contr.storage()
+    except:
+        allData = []
+
+    tempuser = {
+        "name" : "Rohan Verma",
+        "address" : "Kolkata, West Bengal",
+        "pin" : "177005",
+        "blood" : "A+",
+        "canDonate": True,
+        "uid" : "sdf87sd-dsf86s-sdfusdf"
+    }
+    tempuser2 = {
+        "name" : "Not Rohan Verma",
+        "address" : "Kolkata, West Bengal",
+        "pin" : "177005",
+        "blood" : "B+",
+        "canDonate": True,
+        "uid" : "sdf87sd-dsf86s-sdfusdf"
+    }
+    users = [tempuser] * 5 + [tempuser2] * 5
     for item in allData:
-        userdata=allData[item]
+        userdata = allData[item]
         users.append({
             "name": userdata["name"],
             "address": userdata["address"],
             "pin": userdata["pincode"],
             "blood": userdata["bloodGroup"],
-            "canDonate":userdata["canDonate"],
-            "uid" : item
+            "canDonate": userdata["canDonate"],
+            "uid": item
         })
     return json.dumps(users)
 
 
-@app.route("/register", methods=['POST'])
+@app.route("/register", methods=['POST','GET'])
 def register():
+    if request.method == "GET":
+        return redirect('/login')
     name = request.form['name']
     blood_group = request.form['blood']
     address_city = request.form['address-city']
@@ -54,6 +82,7 @@ def register():
     address_pin = request.form['address-pin']
     email = request.form['email']
     password = request.form['password']
+    phone=request.form['phone']
 
     result = supabase.auth.sign_up(email=email, password=password)
 
@@ -68,9 +97,17 @@ def register():
     except:
         print("error")
 
-    # TODO Do registration
+    contr.createUser(uid=uid,
+        username=name,
+        phone=phone,
+        address= address_city+", "+address_state,
+        canDonate=True,
+        email=email,
+        bloodGroup=blood_group,
+        pincode=address_pin).inject()
 
-    return "doing registration"
+
+    return redirect("/")
 
 
 @app.route("/login", methods=['POST', 'GET'])
@@ -98,7 +135,13 @@ def logout():
 
 @app.route("/requests")
 def connected_users():
-    return "connected users"
+    if supabase.auth.current_user:
+        uid=supabase.auth.current_user['id']
+        data = contr.storage()[uid]
+        return render_template("connected_users.html",user=data,authenticated=True)
+    else:
+        return redirect('/login')
+    
 
 
 @app.route("/request", methods=['POST'])
@@ -109,9 +152,31 @@ def connected_to_user():
             "message": "Not Logged IN"
         }
     uid = request.form['uid']
+    curuid=supabase.auth.current_user['id']
+    data = contr.storage()[curuid]
+    contr.addRequest(
+            requestedTo=uid,
+            name=data["name"],
+            phoneNumber=data["phone"],
+            email=data["email"]
+        ).inject()
     return {
         "status": 1,
         "message": "Request Made to " + uid
+    }
+
+@app.route("/changestatus", methods=['POST'])
+def changeStatus():
+    if not supabase.auth.current_user:
+        return {
+            "status": 0,
+            "message": "Not Logged IN"
+        }
+    uid = request.form['uid']
+    contr.updateStatus(uid=curuid,canDonate=True).inject()
+    return {
+        "status": 1,
+        "message": "Can Donate status updated"
     }
 
 
