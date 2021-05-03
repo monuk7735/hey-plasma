@@ -42,13 +42,7 @@ body {
   background-color: var(--top-bar-color);
 }
 
-#top-bar a {
-  text-decoration: none;
-}
 
-#top-bar a:visited {
-  color: white;
-}
 
 #top-bar-logo {
   width: 50px;
@@ -62,12 +56,15 @@ body {
   font-weight: bolder;
 }
 
-#top-bar-requests {
-  padding-right: 20px;
-}
-
 #top-bar-profile {
   flex: 40px 0 0;
+  color: white;
+  text-decoration: none;
+}
+
+#top-bar-profile:visited {
+  color: white;
+  text-decoration: none;
 }
 
 #foot-bar {

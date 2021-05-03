@@ -35,12 +35,12 @@ def home():
 def get_users():
     allData = contr.storage()
     users = []
-    exludeid=""
-    email=""
+    exludeid = ""
+    email = ""
     if supabase.auth.current_user:
-        exludeid=supabase.auth.current_user['id']
-        email=supabase.auth.current_user["email"]
-    
+        exludeid = supabase.auth.current_user['id']
+        email = supabase.auth.current_user["email"]
+
     # tempuser = {
     #     "name" : "Rohan Verma",
     #     "address" : "Kolkata, West Bengal",
@@ -60,11 +60,11 @@ def get_users():
     # users = [tempuser] * 5 + [tempuser2] * 5
     for item in allData:
         userdata = allData[item]
-        if item!=exludeid:
-            already=False
+        if item != exludeid:
+            already = False
             for it in userdata["requests"]:
-                if it["email"]==email:
-                    already=True
+                if it["email"] == email:
+                    already = True
                     break
 
             users.append({
@@ -74,23 +74,23 @@ def get_users():
                 "blood": userdata["bloodGroup"],
                 "canDonate": userdata["canDonate"],
                 "uid": item,
-                "already":already
+                "already": already
             })
     return json.dumps(users)
 
 
-@app.route("/register", methods=['POST','GET'])
+@app.route("/register", methods=['POST', 'GET'])
 def register():
     if request.method == "GET":
         return redirect('/login')
     name = request.form['name']
     blood_group = request.form['blood']
-    address= request.form['address']
+    address = request.form['address']
     # address_state = request.form['address-state']
     address_pin = request.form['address-pin']
     email = request.form['email']
     password = request.form['password']
-    phone=request.form['phone']
+    phone = request.form['phone']
 
     result = supabase.auth.sign_up(email=email, password=password)
 
@@ -108,13 +108,13 @@ def register():
         print("error")
 
     contr.createUser(uid=uid,
-        username=name,
-        phone=phone,
-        address= address,
-        canDonate=True,
-        email=email,
-        bloodGroup=blood_group,
-        pincode=address_pin).inject()
+                     username=name,
+                     phone=phone,
+                     address=address,
+                     canDonate=True,
+                     email=email,
+                     bloodGroup=blood_group,
+                     pincode=address_pin).inject()
 
     return redirect("/")
 
@@ -143,14 +143,13 @@ def logout():
 
 
 @app.route("/profile")
-def connected_users():
+def profile():
     if supabase.auth.current_user:
-        uid=supabase.auth.current_user['id']
+        uid = supabase.auth.current_user['id']
         data = contr.storage()[uid]
-        return render_template("connected_users.html",user=data,authenticated=True)
+        return render_template("profile.html", user=data, authenticated=True,isProfile=True)
     else:
         return redirect('/login')
-    
 
 
 @app.route("/request", methods=['POST'])
@@ -162,18 +161,19 @@ def connected_to_user():
         }
     uid = request.form['uid']
     print(uid)
-    curuid=supabase.auth.current_user['id']
+    curuid = supabase.auth.current_user['id']
     data = contr.storage()[curuid]
     contr.addRequest(
-            requestedTo=uid,
-            name=data["name"],
-            phoneNumber=data["phone"],
-            email=data["email"]
-        ).inject()
+        requestedTo=uid,
+        name=data["name"],
+        phoneNumber=data["phone"],
+        email=data["email"]
+    ).inject()
     return {
         "status": 1,
         "message": "Request Made to " + uid
     }
+
 
 @app.route("/changestatus", methods=['POST'])
 def changeStatus():
@@ -182,16 +182,17 @@ def changeStatus():
             "status": 0,
             "message": "Not Logged IN"
         }
-    curuid=supabase.auth.current_user['id']
+    curuid = supabase.auth.current_user['id']
     canDonate = request.form['canDonate']
-    t=True
-    if canDonate=='false':
-        t=False
-    contr.updateStatus(uid=curuid,canDonate=t).inject()
+    t = True
+    if canDonate == 'false':
+        t = False
+    contr.updateStatus(uid=curuid, canDonate=t).inject()
     return {
         "status": 1,
         "message": "Can Donate status updated"
     }
+
 
 if __name__ == "__main__":
     app.jinja_env.auto_reload = True

@@ -1,7 +1,6 @@
 var users = [];
 var loader= document.getElementsByClassName('loader-container')[0];
 function makeCard(user) {
-  console.log(user)
   let card='<div class="card">\
   <h1 class="user-name">' +
 user.name +
@@ -17,38 +16,38 @@ user.pin;
   if (!user.already){
     card+=
     '</p>\
-        <div class="user-contact-button" uid="' +
+        <div class="user-contact-button" id="'+ user.uid +'" uid="' +
     user.uid +
     '">Contact</div>\
                 </div>';
   }else{
     card+='</p>\
-    <div class="user-contact-disabled-button" uid="'+user.uid +'">Contact Information Sent!</div>\
+    <div class="user-contact-disabled-button"  uid="'+user.uid +'">Contact Information Sent!</div>\
         </div>';
   }
   return card;
 }
 
 function loadData() {
-
+  
   var xmlHttp = new XMLHttpRequest();
   xmlHttp.open("GET", "/api/users", true); // false for synchronous request
   xmlHttp.onload = function (e) {
     users = JSON.parse(xmlHttp.responseText);
-
+    
     userHolder = document.getElementById("card-holder");
     userHolder.innerHTML = "";
-
+    
     for (let i = 0; i < users.length; i++) {
       userHolder.innerHTML += makeCard(users[i]);
     }
-
+    
     allElements = document.getElementsByClassName("user-contact-button");
     for (let i = 0; i < allElements.length; i++) {
       allElements[i].onclick = makeRequest;
     }
-
-
+    
+    
   };
   xmlHttp.send();
 }
@@ -58,16 +57,21 @@ function makeRequest(e) {
   loader.style.visibility = "visible";
   var xmlHttp = new XMLHttpRequest();
   xmlHttp.open("POST", "/request", true); // false for synchronous request
-  console.log(e.srcElement.getAttribute("uid"));
-  xmlHttp.onload = function (e) {
-    loader.style.visibility="hidden"
+  xmlHttp.onload = function (result) {
+    
     resp = JSON.parse(xmlHttp.responseText);
     if (!resp.status) {
       document.location = "/login";
     } else {
       alert(resp.message);
-      location.reload(true);
+      
+      let button=document.getElementById(e.srcElement.getAttribute("uid"));
+      button.innerHTML="Contact Information Sent!";
+      button.className="user-contact-disabled-button";
+      // location.reload(true);
+      // setTimeout(loadData,2000);
     }
+    loader.style.visibility="hidden"
   };
   
   xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");

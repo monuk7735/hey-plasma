@@ -16,10 +16,13 @@
           <a href="/" ><img id="top-bar-logo" src="/static/assets/logo.png"/></a>
           <a id="top-bar-text" >Hey Plasma!</a>
           {% if authenticated %}
-          <a id="top-bar-requests" href="/profile">Profile</a>
-          <a id="top-bar-profile" href="/logout" >Logout</a>
+              {% if isProfile %}
+                <a id="top-bar-profile" href="/profile">Profile</a>
+              {% else %}
+                  <a id="top-bar-profile" href="/logout">Logout</a>
+              {% endif %}
           {% else %}
-          <a id="top-bar-profile" href="/login" >Login</a>
+             <a id="top-bar-profile" href="/login" >Login</a>
           {% endif %}
       </div>
       {% block body %}

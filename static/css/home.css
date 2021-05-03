@@ -13,9 +13,8 @@
   display: flex;
   flex-flow: row;
   height: 40px;
-  margin: 20px;
+  margin: 10px;
   align-items: center;
-  margin: 0 10px;
   border: solid 1px black;
   border-radius: 10px;
   font-size: 150%;
@@ -26,6 +25,7 @@
   background-color: #e9ecef;
   padding: 5px 10px;
   width: 150px;
+  text-align: center;
   border-bottom-left-radius: 10px;
   border-top-left-radius: 10px;
   padding-block-start: 5px;
@@ -40,6 +40,7 @@
   border-width: 0px;
   /* width: 200px;   */
   width: 100%;
+  font-size: 75%;
   border-style: solid;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
@@ -61,7 +62,7 @@
   width: inherit;
   display: grid;
   margin: 15px;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   grid-column-gap: 1em;
 }
 
@@ -76,6 +77,7 @@
 }
 
 .user-name {
+  font-size: 140%;
   text-align: center;
   padding: 0 10px;
   white-space: nowrap;
@@ -124,11 +126,15 @@
 }
 
 .loader-container {
+  z-index: 200;
+  box-shadow: 1px 1px 5px 1px;
   position: absolute;
-  top: 40%;
-  left: 40%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
   visibility: hidden;
-  padding: 1%;
+  padding: 40px;
+  border-radius: 10px;
   background-color: lavender;
 }
 

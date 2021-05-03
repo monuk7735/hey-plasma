@@ -69,13 +69,16 @@
     background-color: #4CAF50;
     color: white;
   }
-
-  .loader-container{
+  .loader-container {
+    z-index: 200;
+    box-shadow: 1px 1px 5px 1px;
     position: absolute;
-    top: 40%;
-    left: 40%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
     visibility: hidden;
-    padding: 1%;
+    padding: 40px;
+    border-radius: 10px;
     background-color: lavender;
   }
   
