@@ -6,8 +6,9 @@
 }
 
 .filter {
-  display: flex;
-  flex-flow: row;
+  /* display: flex; */
+  /* flex-flow: row; */
+  flex: 1 1 300px;
   align-items: center;
   margin: 0 10px;
   border: solid 1px black;
@@ -19,6 +20,7 @@
   display: inline-block;
   background-color: #e9ecef;
   padding: 5px 10px;
+  width: 100px;
   border-bottom-left-radius: 10px;
   border-top-left-radius: 10px;
   padding-block-start: 5px;

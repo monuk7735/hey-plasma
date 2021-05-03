@@ -17,10 +17,10 @@
   <p>{{ user["pincode"] }}</p>
     {% if user["canDonate"] %}
      <p> Can Donate </p>
-     <button id="change-button" type="submit">Change status to Can't Donate</button>
+     <button onClick="change(false)" id="change-button" type="submit">Change status to Can't Donate</button>
     {% else %}
     <p> Can't Donate </p>
-    <button id="change-button" type="submit">Change status to Can Donate</button>
+    <button onClick="change(true)" id="change-button" type="submit">Change status to Can Donate</button>
     {% endif %}
 </div>
 
@@ -46,5 +46,5 @@
 <div class="loader"></div>
 
 
-
+<script src="/static/js/connected_users.js" type="text/javascript"></script>
 {% endblock %}

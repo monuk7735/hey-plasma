@@ -37,34 +37,21 @@ def home():
 def get_users():
     allData = contr.storage()
     users = []
-    
-    # tempuser = {
-    #     "name" : "Rohan Verma",
-    #     "address" : "Kolkata, West Bengal",
-    #     "pin" : "177005",
-    #     "blood" : "A+",
-    #     "canDonate": True,
-    #     "uid" : "sdf87sd-dsf86s-sdfusdf"
-    # }
-    # tempuser2 = {
-    #     "name" : "Not Rohan Verma",
-    #     "address" : "Kolkata, West Bengal",
-    #     "pin" : "177005",
-    #     "blood" : "B+",
-    #     "canDonate": True,
-    #     "uid" : "sdf87sd-dsf86s-sdfusdf"
-    # }
-    # users = [tempuser] * 5 + [tempuser2] * 5
+    exludeid=""
+    if supabase.auth.current_user:
+        exludeid=supabase.auth.current_user['id']
+
     for item in allData:
         userdata = allData[item]
-        users.append({
-            "name": userdata["name"],
-            "address": userdata["address"],
-            "pin": userdata["pincode"],
-            "blood": userdata["bloodGroup"],
-            "canDonate": userdata["canDonate"],
-            "uid": item
-        })
+        if item != exludeid:
+            users.append({
+                "name": userdata["name"],
+                "address": userdata["address"],
+                "pin": userdata["pincode"],
+                "blood": userdata["bloodGroup"],
+                "canDonate": userdata["canDonate"],
+                "uid": item
+            })
     return json.dumps(users)
 
 
@@ -129,7 +116,7 @@ def logout():
     return redirect('/')
 
 
-@app.route("/requests")
+@app.route("/profile")
 def connected_users():
     if supabase.auth.current_user:
         uid=supabase.auth.current_user['id']
@@ -168,13 +155,16 @@ def changeStatus():
             "status": 0,
             "message": "Not Logged IN"
         }
-    uid = request.form['uid']
-    contr.updateStatus(uid=curuid,canDonate=True).inject()
+    curuid=supabase.auth.current_user['id']
+    canDonate = request.form['canDonate']
+    t=True
+    if canDonate == 'false':
+        t=False
+    contr.updateStatus(uid=curuid,canDonate=t).inject()
     return {
         "status": 1,
         "message": "Can Donate status updated"
     }
-
 
 if __name__ == "__main__":
     app.jinja_env.auto_reload = True

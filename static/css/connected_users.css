@@ -18,6 +18,7 @@
       margin-bottom: 10;
       padding: 10%;
   }
+
   #change-button {
     border: none;
     outline: 0;
@@ -88,4 +89,20 @@
   @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+  }
+    
+  @media only screen  and (max-device-width: 768px){
+    .card {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+      text-align: center;
+      width: 100%;
+      left: 0%;
+      position: relative;
+    }
+    .requests-view{
+      position: relative;
+      width: 100%;
+      padding-left: 10px;
+      padding-right: 10px;
+    } 
   }
