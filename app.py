@@ -76,8 +76,8 @@ def register():
         return redirect('/login')
     name = request.form['name']
     blood_group = request.form['blood']
-    address_city = request.form['address-city']
-    address_state = request.form['address-state']
+    address= request.form['address']
+    # address_state = request.form['address-state']
     address_pin = request.form['address-pin']
     email = request.form['email']
     password = request.form['password']
@@ -101,7 +101,7 @@ def register():
     contr.createUser(uid=uid,
         username=name,
         phone=phone,
-        address= address_city+", "+address_state,
+        address= address,
         canDonate=True,
         email=email,
         bloodGroup=blood_group,
@@ -172,8 +172,12 @@ def changeStatus():
             "status": 0,
             "message": "Not Logged IN"
         }
-    uid = request.form['uid']
-    contr.updateStatus(uid=curuid,canDonate=True).inject()
+    curuid=supabase.auth.current_user['id']
+    canDonate = request.form['canDonate']
+    t=True
+    if canDonate=='false':
+        t=False
+    contr.updateStatus(uid=curuid,canDonate=t).inject()
     return {
         "status": 1,
         "message": "Can Donate status updated"

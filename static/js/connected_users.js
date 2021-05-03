@@ -13,8 +13,7 @@ function change(e) {
       document.location = "/login";
     } else {
       alert(resp.message);
-
-      location.reload();
+      location.reload(true);
     }
   };
   xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
