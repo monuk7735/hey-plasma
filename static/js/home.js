@@ -1,24 +1,32 @@
 var users = [];
 var loader= document.getElementsByClassName('loader-container')[0];
 function makeCard(user) {
-  return (
-    '<div class="card">\
-                <h1 class="user-name">' +
-    user.name +
-    " - " +
-    user.blood +
-    '</h1>\
-                <p class="user-address">' +
-    user.address +
+  console.log(user)
+  let card='<div class="card">\
+  <h1 class="user-name">' +
+user.name +
+" - " +
+user.blood +
+'</h1>\
+  <p class="user-address">' +
+user.address +
+'</p>\
+  <p class="user-address-pin">' +
+user.pin;
+
+  if (!user.already){
+    card+=
     '</p>\
-                <p class="user-address-pin">' +
-    user.pin +
-    '</p>\
-                <div class="user-contact-button" uid="' +
+        <div class="user-contact-button" uid="' +
     user.uid +
     '">Contact</div>\
-                </div>'
-  );
+                </div>';
+  }else{
+    card+='</p>\
+    <div class="user-contact-disabled-button" uid="'+user.uid +'">Contact Information Sent!</div>\
+        </div>';
+  }
+  return card;
 }
 
 function loadData() {
@@ -50,7 +58,7 @@ function makeRequest(e) {
   loader.style.visibility = "visible";
   var xmlHttp = new XMLHttpRequest();
   xmlHttp.open("POST", "/request", true); // false for synchronous request
-
+  console.log(e.srcElement.getAttribute("uid"));
   xmlHttp.onload = function (e) {
     loader.style.visibility="hidden"
     resp = JSON.parse(xmlHttp.responseText);
@@ -58,8 +66,10 @@ function makeRequest(e) {
       document.location = "/login";
     } else {
       alert(resp.message);
+      location.reload(true);
     }
   };
+  
   xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
   xmlHttp.send("uid=" + e.srcElement.getAttribute("uid"));
 }

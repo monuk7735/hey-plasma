@@ -13,6 +13,7 @@
   
   
   #card-your-profile{
+      border-radius: 10px 10px 0px 0px;
       background-color: gray;
       margin-top: 10;
       margin-bottom: 10;
@@ -22,6 +23,7 @@
   #change-button {
     border: none;
     outline: 0;
+    border-radius:  0px 0px 10px 10px;
     display: inline-block;
     padding: 8px;
     color: white;

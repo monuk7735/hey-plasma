@@ -36,8 +36,10 @@ def get_users():
     allData = contr.storage()
     users = []
     exludeid=""
+    email=""
     if supabase.auth.current_user:
         exludeid=supabase.auth.current_user['id']
+        email=supabase.auth.current_user["email"]
     
     # tempuser = {
     #     "name" : "Rohan Verma",
@@ -59,13 +61,20 @@ def get_users():
     for item in allData:
         userdata = allData[item]
         if item!=exludeid:
+            already=False
+            for it in userdata["requests"]:
+                if it["email"]==email:
+                    already=True
+                    break
+
             users.append({
                 "name": userdata["name"],
                 "address": userdata["address"],
                 "pin": userdata["pincode"],
                 "blood": userdata["bloodGroup"],
                 "canDonate": userdata["canDonate"],
-                "uid": item
+                "uid": item,
+                "already":already
             })
     return json.dumps(users)
 
@@ -152,6 +161,7 @@ def connected_to_user():
             "message": "Not Logged IN"
         }
     uid = request.form['uid']
+    print(uid)
     curuid=supabase.auth.current_user['id']
     data = contr.storage()[curuid]
     contr.addRequest(

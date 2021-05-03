@@ -105,6 +105,18 @@
   font-weight: bold;
 }
 
+
+.user-contact-disabled-button {
+  padding: 10px 0;
+  display: inline-block;
+  width: 100%;
+  transition-duration: 500ms;
+  background-color: rgb(19, 14, 14);
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
 .user-contact-button:hover {
   filter: brightness(75%);
   cursor: pointer;
