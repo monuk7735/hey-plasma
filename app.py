@@ -17,8 +17,6 @@ key: str = os.environ["SUPABASE_KEY"]
 supabase: Client = create_client(url, key)
 
 
-
-
 @app.route("/favicon.ico")
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'), 'assets/favicon.png', mimetype='image/vnd.microsoft.icon')
@@ -40,9 +38,27 @@ def get_users():
     exludeid=""
     if supabase.auth.current_user:
         exludeid=supabase.auth.current_user['id']
+    
+    # tempuser = {
+    #     "name" : "Rohan Verma",
+    #     "address" : "Kolkata, West Bengal",
+    #     "pin" : "177005",
+    #     "blood" : "A+",
+    #     "canDonate": True,
+    #     "uid" : "sdf87sd-dsf86s-sdfusdf"
+    # }
+    # tempuser2 = {
+    #     "name" : "Not Rohan Verma",
+    #     "address" : "Kolkata, West Bengal",
+    #     "pin" : "177005",
+    #     "blood" : "B+",
+    #     "canDonate": True,
+    #     "uid" : "sdf87sd-dsf86s-sdfusdf"
+    # }
+    # users = [tempuser] * 5 + [tempuser2] * 5
     for item in allData:
         userdata = allData[item]
-        if item != exludeid:
+        if item!=exludeid:
             users.append({
                 "name": userdata["name"],
                 "address": userdata["address"],
@@ -156,12 +172,8 @@ def changeStatus():
             "status": 0,
             "message": "Not Logged IN"
         }
-    curuid=supabase.auth.current_user['id']
-    canDonate = request.form['canDonate']
-    t=True
-    if canDonate == 'false':
-        t=False
-    contr.updateStatus(uid=curuid,canDonate=t).inject()
+    uid = request.form['uid']
+    contr.updateStatus(uid=curuid,canDonate=True).inject()
     return {
         "status": 1,
         "message": "Can Donate status updated"

@@ -1,14 +1,19 @@
 #filter-holder {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-column-gap: 1em;
+  grid-row-gap: 5px;
+  /* display: flex; */
   margin: 20px;
-  flex-flow: row;
+  /* flex-flow: row; */
   justify-content: center;
 }
 
 .filter {
-  /* display: flex; */
-  /* flex-flow: row; */
-  flex: 1 1 300px;
+  display: flex;
+  flex-flow: row;
+  height: 40px;
+  margin: 20px;
   align-items: center;
   margin: 0 10px;
   border: solid 1px black;
@@ -20,7 +25,7 @@
   display: inline-block;
   background-color: #e9ecef;
   padding: 5px 10px;
-  width: 100px;
+  width: 150px;
   border-bottom-left-radius: 10px;
   border-top-left-radius: 10px;
   padding-block-start: 5px;
@@ -33,19 +38,22 @@
   box-sizing: border-box;
   height: 100%;
   border-width: 0px;
-  width: 200px;
+  /* width: 200px;   */
+  width: 100%;
   border-style: solid;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
   box-decoration-break: unset;
 }
 
-#filter-submit{
+#filter-submit {
   color: black;
+  text-align: center;
+  width: 100%;
   padding: 0 10px;
 }
 
-#filter-submit:hover{
+#filter-submit:hover {
   cursor: pointer;
 }
 
@@ -102,7 +110,7 @@
   /* background-color: var(--card-contact-color); */
 }
 
-.loader-container{
+.loader-container {
   position: absolute;
   top: 40%;
   left: 40%;
@@ -121,6 +129,10 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
