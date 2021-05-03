@@ -4,18 +4,13 @@
 ### By: Team Ello There
 #### Hackathon Organised by Tezos
 
-
 ## Initial Commit: May 1, 2021
-
-<!-- ## Final Commit: May 3, 2021 -->
-
 
 ## Team Members
   - Monu Kumar (Team Leader)
-  - Sushant Chandla (Co-leader)
+  - Sushant Chandla
   - Rohit Kumar
   - Priyanka Dhayal
-  - Winter Soldier
 
 ### What?
 > We have created a platform for Covid Patients to get connected with recovered patients and request for their plasma donation provided they can.
