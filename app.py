@@ -40,7 +40,6 @@ def get_users():
     exludeid=""
     if supabase.auth.current_user:
         exludeid=supabase.auth.current_user['id']
-
     for item in allData:
         userdata = allData[item]
         if item != exludeid:
@@ -75,6 +74,8 @@ def register():
     if result['status_code'] != 200:
         return result
         # {'id': 'cf53f40e-2649-4c41-89c4-3aca64f3d936', 'aud': 'authenticated', 'role': 'authenticated', 'email': 'admin@admin.admin', 'confirmation_sent_at': '2021-05-02T07:53:00.0062947Z', 'app_metadata': {'provider': 'email'}, 'user_metadata': None, 'created_at': '2021-05-02T07:53:00.004806Z', 'updated_at': '2021-05-02T07:53:00.635398Z', 'status_code': 200}
+
+    supabase.auth.sign_in(email=email, password=password)
 
     try:
         uid = result['user']['id']
@@ -169,5 +170,4 @@ def changeStatus():
 if __name__ == "__main__":
     app.jinja_env.auto_reload = True
     app.config['TEMPLATES_AUTO_RELOAD'] = True
-
     app.run("0.0.0.0", 7735)
